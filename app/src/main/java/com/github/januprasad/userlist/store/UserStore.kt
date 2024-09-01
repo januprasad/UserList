@@ -1,4 +1,4 @@
-package com.github.januprasad.userlist.repo
+package com.github.januprasad.userlist.store
 
 import com.github.januprasad.userlist.model.User
 

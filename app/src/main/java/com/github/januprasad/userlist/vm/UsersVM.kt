@@ -3,7 +3,7 @@ package com.github.januprasad.userlist.vm
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.januprasad.userlist.model.User
-import com.github.januprasad.userlist.repo.UserStore
+import com.github.januprasad.userlist.store.UserStore
 import com.github.januprasad.userlist.repo.UsersRepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

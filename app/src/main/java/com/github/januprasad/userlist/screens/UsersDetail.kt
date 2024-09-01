@@ -5,7 +5,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.repeatOnLifecycle
-import com.github.januprasad.userlist.repo.UserStore
+import com.github.januprasad.userlist.store.UserStore
 import com.github.januprasad.userlist.vm.UsersVM
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
