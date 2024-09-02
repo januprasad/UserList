@@ -23,6 +23,7 @@ import com.github.januprasad.userlist.Dimen
 import com.github.januprasad.userlist.model.User
 import com.github.januprasad.userlist.vm.AppState
 import com.github.januprasad.userlist.vm.UsersVM
+import kotlinx.coroutines.flow.collectLatest
 
 
 @Composable
@@ -37,6 +38,7 @@ fun UsersScreen(
         if(appState !is AppState.Loaded)
         viewModel.getUsers()
     }
+
     when (appState) {
         is AppState.Init -> {}
         is AppState.Loaded -> UsersList((appState as AppState.Loaded).users) { user ->

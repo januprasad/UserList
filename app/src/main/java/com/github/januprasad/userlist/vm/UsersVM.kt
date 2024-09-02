@@ -3,10 +3,13 @@ package com.github.januprasad.userlist.vm
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.januprasad.userlist.model.User
+import com.github.januprasad.userlist.model.UserModel
+import com.github.januprasad.userlist.model.toUserModel
 import com.github.januprasad.userlist.store.UserStore
 import com.github.januprasad.userlist.repo.UsersRepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -22,7 +25,7 @@ class UsersVM @Inject constructor(private val usersRepoImpl: UsersRepositoryImpl
     val uiState = _uiState.asStateFlow()
 
 
-    private var _userState = MutableSharedFlow<User>()
+    private var _userState = MutableSharedFlow<UserModel>()
     val userState = _userState.asSharedFlow()
 
 
@@ -42,7 +45,8 @@ class UsersVM @Inject constructor(private val usersRepoImpl: UsersRepositoryImpl
     fun storeUser(user: User) {
         UserStore.storeUser(user)
         viewModelScope.launch(Dispatchers.IO) {
-            _userState.emit(user)
+            delay(1000L)
+            _userState.emit(user.toUserModel())
         }
     }
 }

@@ -32,3 +32,12 @@ data class User(
     val username: String,
     val weight: Double
 )
+
+fun User.toUserModel() =
+    UserModel(
+        firstName = firstName,
+        lastName = lastName,
+        email = email,
+        image = image,
+        phone = phone,
+    )

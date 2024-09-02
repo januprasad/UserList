@@ -10,8 +10,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
@@ -40,6 +45,8 @@ class MainActivity : ComponentActivity() {
 
         enableEdgeToEdge()
         setContent {
+            val scope = rememberCoroutineScope()
+            val snackbarHostState = remember { SnackbarHostState() }
             UserListTheme {
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
@@ -47,9 +54,11 @@ class MainActivity : ComponentActivity() {
                         TopAppBar(title = {
                             Text(text = "User List")
                         })
+                    },
+                    snackbarHost = {
+                        SnackbarHost(hostState = snackbarHostState)
                     }
                 ) { innerPadding ->
-
                     val navController = rememberNavController()
                     Column(Modifier.padding(innerPadding)) {
                         NavHost(
@@ -63,7 +72,11 @@ class MainActivity : ComponentActivity() {
                             }
 
                             composable(Screens.UsersDetailScreen.route) {
-                                UsersDetail(usersVM)
+                                UsersDetail(usersVM, snackBarEventHandler = {
+                                    scope.launch {
+                                        snackbarHostState.showSnackbar(it)
+                                    }
+                                })
                             }
                         }
                     }
@@ -71,13 +84,13 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                usersVM.userState.collectLatest {
-                    println(it.firstName)
-                }
-            }
-        }
+//        lifecycleScope.launch {
+//            repeatOnLifecycle(Lifecycle.State.STARTED) {
+//                usersVM.userState.collectLatest {
+//                    println(it.firstName)
+//                }
+//            }
+//        }
     }
 }
 

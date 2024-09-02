@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @Composable
-fun UsersDetail(viewModel: UsersVM) {
+fun UsersDetail(viewModel: UsersVM, snackBarEventHandler: (String) -> Unit) {
     val lifecycle = LocalLifecycleOwner.current
     LaunchedEffect(Unit) {
         lifecycle.repeatOnLifecycle(state = Lifecycle.State.STARTED) {
@@ -23,4 +23,11 @@ fun UsersDetail(viewModel: UsersVM) {
         }
     }
     UserRow(user = UserStore.getUser())
+
+    LaunchedEffect(true) {
+        viewModel.userState.collectLatest {
+            println(it.firstName + " UserDetail " + it.lastName)
+            snackBarEventHandler(it.firstName + " " + it.lastName)
+        }
+    }
 }
